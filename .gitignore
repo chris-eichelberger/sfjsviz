@@ -1,0 +1,13 @@
+*.iws
+*.ipr
+*.iml
+*.idea/
+*.log
+.idea/**
+**/.classpath
+**/.project
+**/.settings
+target
+atlassian*
+geomesa-*.*.*-*
+**/src/main/resources/git.properties
