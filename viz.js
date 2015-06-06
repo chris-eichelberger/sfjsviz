@@ -3,7 +3,7 @@ var view_height = view_width / 16.0 * 9.0;
 var view_ratio = view_width / view_height;
 
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, view_ratio, 0.1, 1000 );
+var camera = new THREE.PerspectiveCamera( 90, view_ratio, 0.1, 1000 );
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( view_width, view_height );
@@ -43,20 +43,36 @@ function getPoint(index) {
   return null;
 }
 
+function isSelected(x, y, z) {
+  if (x < sel_x[0] || x > sel_x[1]) return false;
+  if (y < sel_y[0] || y > sel_y[1]) return false;
+  if (z < sel_z[0] || z > sel_z[1]) return false;
+
+  return true;
+}
+
+function toggle_rotation() {
+  rotate = !rotate;
+}
+
 var sfc_group = new THREE.Group();
 
 var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 
 // add nodes
-var node_material = new THREE.MeshBasicMaterial( { color: 0x333333 } );
+var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
+var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
 for (var i=0; i < sfc.nodes.length; i++) {
   var point = getPoint(i);
   var px = point[0] * dx - off_x;
   var py = point[1] * dy - off_y;
   var pz = point[2] * dz - off_z;
+  var is_selected = isSelected(point[0], point[1], point[2]);
 
   var node_geometry = new THREE.BoxGeometry( node_dx, node_dy, node_dz );
-  var node = new THREE.Mesh( node_geometry, node_material );
+  var node = null;
+  if (is_selected) node = new THREE.Mesh( node_geometry, node_material_on );
+  else node = new THREE.Mesh( node_geometry, node_material_off );
   node.position.x = px;
   node.position.y = py;
   node.position.z = pz;
@@ -69,11 +85,13 @@ console.log(last_point)
 var px0 = last_point[0] * dx - off_x;
 var py0 = last_point[1] * dy - off_y;
 var pz0 = last_point[2] * dz - off_z;
+var last_sel = isSelected(last_point[0], last_point[1], last_point[2]);
 for (var i=1; i < sfc.nodes.length; i++) {
   var point = getPoint(i);
   var px1 = point[0] * dx - off_x;
   var py1 = point[1] * dy - off_y;
   var pz1 = point[2] * dz - off_z;
+  var sel = isSelected(point[0], point[1], point[2]);
 
   var line_geometry = new THREE.Geometry();
   line_geometry.vertices.push(
@@ -84,10 +102,17 @@ for (var i=1; i < sfc.nodes.length; i++) {
   var color = new THREE.Color();
   var p = (i - 0.0) / (sfc.nodes.length - 1.0)
   color.setHSL(p * 2.0/3.0, 0.8, 0.5)
-  console.log("p " + p + ", color " + color.getHexString())
 
   var line_material = new THREE.MeshBasicMaterial();
   line_material.color = color;
+  if (sel && last_sel) {
+    line_material.transparent = false;
+    line_material.opacity = 1.0;
+  }
+  else {
+    line_material.transparent = true;
+    line_material.opacity = 0.25;
+  }
   var line = new THREE.Line( line_geometry, line_material );
   sfc_group.add(line);
 
@@ -95,6 +120,7 @@ for (var i=1; i < sfc.nodes.length; i++) {
   px0 = px1;
   py0 = py1;
   pz0 = pz1;
+  last_sel = sel;
 }
 
 scene.add(sfc_group);
@@ -120,8 +146,10 @@ camera.position.z = 5;
 
 function render() {
   requestAnimationFrame( render );
-  sfc_group.rotation.x += 0.001;
-  sfc_group.rotation.y += 0.002;
+  if (rotate) {
+    sfc_group.rotation.x += 0.001;
+    sfc_group.rotation.y += 0.002;
+  }
   renderer.render( scene, camera );
 }
 render();
