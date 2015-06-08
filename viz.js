@@ -88,7 +88,28 @@ function reset_rotation_axis(axis) {
 }
 
 function update_selection() {
-  console.log("update_selection()");
+  console.log("update_selection():  #nodes = " + sfcThree.nodes.length);
+
+  for (var n=0; n<sfcThree.nodes.length; n++) {
+    var index = sfcThree.nodes[n].userData.sfc_index;
+    var point = getPoint(index);
+
+    if (isSelected(point[0], point[1], point[2])) {
+      sfc_group.children[index].material.setValues({
+        transparent:  false,
+        opacity: 1.0
+      });
+      sfc_group.children[index].material.color.setHex("#999999");
+    } else {
+      sfc_group.children[index].material.setValues({
+        transparent:  true,
+        opacity: 0.5
+      });
+      sfc_group.children[index].material.color.setHex("#333333");
+    }
+  }
+
+  render();
 }
 
 
@@ -120,6 +141,7 @@ for (var i=0; i < sfc.nodes.length; i++) {
   node.position.x = px;
   node.position.y = py;
   node.position.z = pz;
+  node.userData["sfc_index"] = i;
   sfc_group.add(node);
   sfcThree.nodes.push(node);
 }
