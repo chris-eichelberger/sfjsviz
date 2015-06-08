@@ -90,24 +90,39 @@ function reset_rotation_axis(axis) {
 function update_selection() {
   console.log("update_selection():  #nodes = " + sfcThree.nodes.length);
 
-  for (var n=0; n<sfcThree.nodes.length; n++) {
-    var index = sfcThree.nodes[n].userData.sfc_index;
-    var point = getPoint(index);
-
-    if (isSelected(point[0], point[1], point[2])) {
-      sfc_group.children[index].material.setValues({
-        transparent:  false,
-        opacity: 1.0
-      });
-      sfc_group.children[index].material.color.setHex("#999999");
-    } else {
-      sfc_group.children[index].material.setValues({
-        transparent:  true,
-        opacity: 0.5
-      });
-      sfc_group.children[index].material.color.setHex("#333333");
+  sfc_group.traverse(function(geo) {
+    if (geo.userData && typeof geo.userData.sfc_index != "undefined") {
+      var point = getPoint(geo.userData.sfc_index);
+      if (geo.userData.sfc_index < 4) console.log("  FOUND:  " + point)
+      if (isSelected(point[0], point[1], point[2])) {
+        geo.material = node_material_on;
+        geo.material.color.setHex("#FF0000");
+      } else {
+        geo.material = node_material_off;
+      }
     }
-  }
+  });
+
+//  for (var n=0; n<sfcThree.nodes.length; n++) {
+//    var index = sfcThree.nodes[n].userData.sfc_index;
+//    var point = getPoint(index);
+//
+//    if (isSelected(point[0], point[1], point[2])) {
+//      sfc_group.children[index].material.setValues({
+//        transparent:  false,
+//        opacity: 1.0
+//      });
+//      sfc_group.children[index].material.color.setHex("#999999");
+//    } else {
+//      sfc_group.children[index].material.setValues({
+//        transparent:  true,
+//        opacity: 0.5
+//      });
+//      sfc_group.children[index].material.color.setHex("#333333");
+//    }
+//
+//    console.log(sfc_group.children[index].material);
+//  }
 
   render();
 }
