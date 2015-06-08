@@ -83,6 +83,10 @@ function toggle_rotation_x() { toggle_rotation_axis("x"); }
 function toggle_rotation_y() { toggle_rotation_axis("y"); }
 function toggle_rotation_z() { toggle_rotation_axis("z"); }
 
+function reset_rotation_axis(axis) {
+  sfc_group.rotation[axis] = 0.0;
+}
+
 var sfc_group = new THREE.Group();
 
 var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
