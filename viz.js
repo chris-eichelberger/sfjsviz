@@ -96,9 +96,10 @@ function update_selection() {
       if (geo.userData.sfc_index < 4) console.log("  FOUND:  " + point)
       if (isSelected(point[0], point[1], point[2])) {
         geo.material = node_material_on;
-        geo.material.color.setHex("#FF0000");
+        geo.material.needsUpdate = true;
       } else {
         geo.material = node_material_off;
+        geo.material.needsUpdate = true;
       }
     }
   });
