@@ -87,9 +87,21 @@ function reset_rotation_axis(axis) {
   sfc_group.rotation[axis] = 0.0;
 }
 
+function update_selection() {
+  console.log("update_selection()");
+}
+
+
+
+
 var sfc_group = new THREE.Group();
 
 var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+var sfcThree = {
+  nodes: [],
+  edges: []
+};
 
 // add nodes
 var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
@@ -109,6 +121,7 @@ for (var i=0; i < sfc.nodes.length; i++) {
   node.position.y = py;
   node.position.z = pz;
   sfc_group.add(node);
+  sfcThree.nodes.push(node);
 }
 
 // add lines
@@ -147,6 +160,7 @@ for (var i=1; i < sfc.nodes.length; i++) {
   }
   var line = new THREE.Line( line_geometry, line_material );
   sfc_group.add(line);
+  sfcThree.edges.push(line);
 
   last_point = point;
   px0 = px1;

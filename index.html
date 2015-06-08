@@ -63,6 +63,7 @@
       values: [ 0, 2 ],
       slide: function( event, ui ) {
         $( "#x-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        update_selection();
       }
     });
     $( "#x-query-range" ).val( "" + $( "#slider-range-x" ).slider( "values", 0 ) +
