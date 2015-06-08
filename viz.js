@@ -66,6 +66,11 @@ function isSelected(x, y, z) {
   return true;
 }
 
+function isPointSelected(index) {
+  var point = getPoint(index);
+  return isSelected(point[0], point[1], point[2]);
+}
+
 function toggle_rotation() {
   rotate = !rotate;
   if (rotate) $( "#btn_rotate" )[0].value = "stop rotating";
@@ -92,40 +97,34 @@ function update_selection() {
 
   sfc_group.traverse(function(geo) {
     if (geo.userData && typeof geo.userData.sfc_index != "undefined") {
-      var point = getPoint(geo.userData.sfc_index);
-      if (geo.userData.sfc_index < 4) console.log("  FOUND:  " + point)
-      if (isSelected(point[0], point[1], point[2])) {
+      var index = geo.userData.sfc_index;
+
+      // update nodes
+      if (isPointSelected(index)) {
         geo.material = node_material_on;
         geo.material.needsUpdate = true;
       } else {
         geo.material = node_material_off;
         geo.material.needsUpdate = true;
       }
+
+      // update edges
+      if (index > 0) {
+        // there exists an inbound edge
+        if (isPointSelected(index - 1)) {
+          geo.material.setValues({
+            transparent: false,
+            opacity: 1.0
+          });
+        } else {
+          geo.material.setValues({
+            transparent: true,
+            opacity: 0.5
+          });
+        }
+      }
     }
   });
-
-//  for (var n=0; n<sfcThree.nodes.length; n++) {
-//    var index = sfcThree.nodes[n].userData.sfc_index;
-//    var point = getPoint(index);
-//
-//    if (isSelected(point[0], point[1], point[2])) {
-//      sfc_group.children[index].material.setValues({
-//        transparent:  false,
-//        opacity: 1.0
-//      });
-//      sfc_group.children[index].material.color.setHex("#999999");
-//    } else {
-//      sfc_group.children[index].material.setValues({
-//        transparent:  true,
-//        opacity: 0.5
-//      });
-//      sfc_group.children[index].material.color.setHex("#333333");
-//    }
-//
-//    console.log(sfc_group.children[index].material);
-//  }
-
-  render();
 }
 
 
@@ -158,6 +157,7 @@ for (var i=0; i < sfc.nodes.length; i++) {
   node.position.y = py;
   node.position.z = pz;
   node.userData["sfc_index"] = i;
+  node.userData["sfc_type"] = "node";
   sfc_group.add(node);
   sfcThree.nodes.push(node);
 }
@@ -198,6 +198,8 @@ for (var i=1; i < sfc.nodes.length; i++) {
   }
   var line = new THREE.Line( line_geometry, line_material );
   sfc_group.add(line);
+  node.userData["sfc_index"] = i;
+  node.userData["sfc_type"] = "edge";
   sfcThree.edges.push(line);
 
   last_point = point;

@@ -31,7 +31,7 @@
         var sfc = sfc__Z224;
 
         // query
-        var sel_x = [0, 2];
+        var sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
         var sel_y = [1, 3];
         var sel_z = [0, 2];
 
@@ -58,9 +58,9 @@
   $(function() {
     $( "#slider-range-x" ).slider({
       range: true,
-      min: 0,
-      max: 4,
-      values: [ 0, 2 ],
+      min: sfc.bounds[0].min,
+      max: sfc.bounds[0].max,
+      values: [ sfc.bounds[0].min, sfc.bounds[0].max ],
       slide: function( event, ui ) {
         $( "#x-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
         sel_x = [ui.values[0], ui.values[1]];
