@@ -10,7 +10,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( view_width, view_height );
 document.body.appendChild( renderer.domElement );
 
-controls = new THREE.OrbitControls( camera );
+controls = new THREE.OrbitControls( camera, renderer.domElement );
 controls.target.set(0, 0, 0);
 controls.rotateSpeed = 1.0;
 controls.zoomSpeed = 1.2;
