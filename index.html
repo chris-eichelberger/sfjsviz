@@ -6,10 +6,14 @@
     <style>
         body { margin: 0; }
         canvas { width: 100%; height: 100% }
+
+        input { width:100px; }
     </style>
 </head>
 <body>
+    <script src="jquery-1.11.3.min.js"></script>
     <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
     <script src="data/h(2,2,2).js"></script>
     <script src="data/h(2,2,4).js"></script>
     <script src="data/z(2,2,2).js"></script>
@@ -18,7 +22,7 @@
     <script src="data/r(2,2,4).js"></script>
     <script>
         // select curve
-        var sfc = sfc__H222;
+        var sfc = sfc__Z224;
 
         // query
         var sel_x = [0, 2];
@@ -26,11 +30,19 @@
         var sel_z = [0, 2];
 
         // whether to rotate automatically
-        var rotate = false;
+        var rotate = {
+          x: false,
+          y: false,
+          z: false
+        };
     </script>
     <script src="viz.js"></script>
 
     <br>
-    <input type="button" value="start rotation" onclick="toggle_rotation()"/>
+    <input type="button" id="btn_rotate" value="rotate" onclick="toggle_rotation()"/>
+
+    <br><input type="button" id="btn_rotate_x" value="rotate x" onclick="toggle_rotation_x()"/>
+    <br><input type="button" id="btn_rotate_y" value="rotate y" onclick="toggle_rotation_y()"/>
+    <br><input type="button" id="btn_rotate_z" value="rotate z" onclick="toggle_rotation_z()"/>
 </body>
 </html>
