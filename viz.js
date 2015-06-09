@@ -50,6 +50,28 @@ var off_x = 0.5 * dx * cells_x;
 var off_y = 0.5 * dy * cells_y;
 var off_z = 0.5 * dz * cells_z;
 
+var sfc_group = new THREE.Group();
+
+var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+var sfcThree = {
+  nodes: [],
+  edges: []
+};
+
+var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
+var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
+
+
+
+
+function getPointVector(point) {
+  var px = point[0] * dx - off_x;
+  var py = point[1] * dy - off_y;
+  var pz = point[2] * dz - off_z;
+  return new THREE.Vector3(px, py, pz);
+}
+
 function getPoint(index) {
   for (var k=0; k<sfc.nodes.length; k++) {
     if (sfc.nodes[k].index == index) return sfc.nodes[k].point;
@@ -90,6 +112,39 @@ function toggle_rotation_z() { toggle_rotation_axis("z"); }
 
 function reset_rotation_axis(axis) {
   sfc_group.rotation[axis] = 0.0;
+}
+
+var pulses = [];
+var pulse_speed = 0.1;
+var pulse_radius = unit_dist * 0.15;
+var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFF0000, transparent: true, opacity: 0.80 } );
+
+function stop_all_pulses() {
+  for (i=0; i<pulses.length; i++) {
+    scene.remove(pulses[i].obj);
+  }
+  pulses = [];
+  render();
+}
+
+function update_pulses() {
+  for (i=0; i<pulses.length; i++) {
+    var pulse = pulses[i];
+    var p0 = Math.floor(pulse.userData.position);
+    var p1 = Math.floor(pulse.userData.position + 0.0001);
+  }
+}
+
+function add_pulse() {
+  var pulse_point = getPointVector(getPoint(0));
+  var pulse_geom = new THREE.SphereGeometry(pulse_radius, 32, 32);
+  var pulse = new THREE.Mesh( pulse_geom, pulse_material );
+  pulse.position = pulse_point;
+  pulse.userData["position"] = 0.0;
+  pulses.push(pulse);
+  sfc_group.add(pulse);
+
+  render();
 }
 
 function update_selection() {
@@ -162,19 +217,6 @@ function update_selection() {
 
 
 
-var sfc_group = new THREE.Group();
-
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-
-var sfcThree = {
-  nodes: [],
-  edges: []
-};
-
-var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
-var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
-
-
 function render() {
   requestAnimationFrame( render );
 
@@ -185,7 +227,6 @@ function render() {
   renderer.render( scene, camera );
 }
 render();
-
 
 function rebuild() {
   // clear out whatever exists
@@ -266,6 +307,12 @@ function rebuild() {
     py0 = py1;
     pz0 = pz1;
     last_sel = sel;
+  }
+
+  // add pulses
+  update_pulses();
+  for (i=0; i<pulses.length; i++) {
+    sfc_group.add(pulses[i]);
   }
 
   scene.add(sfc_group);
