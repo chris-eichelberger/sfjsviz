@@ -54,19 +54,40 @@
             }
 
             // query
-            sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
-            sel_y = [sfc.bounds[1].min, sfc.bounds[1].max];
-            sel_z = [sfc.bounds[2].min, sfc.bounds[2].max];
+            if (sel_x == 0) {
+                sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
+            } else {
+                sel_x = [
+                  Math.max(sfc.bounds[0].min, Math.min(sfc.bounds[0].max, sel_x[0])),
+                  Math.min(sfc.bounds[0].max, Math.max(sfc.bounds[0].min, sel_x[1]))
+                ];
+            }
+            if (sel_y == 0) {
+                sel_y = [sfc.bounds[1].min, sfc.bounds[1].max];
+            } else {
+                sel_y = [
+                  Math.max(sfc.bounds[1].min, Math.min(sfc.bounds[1].max, sel_y[0])),
+                  Math.min(sfc.bounds[1].max, Math.max(sfc.bounds[1].min, sel_y[1]))
+                ];
+            }
+            if (sel_z == 0) {
+                sel_z = [sfc.bounds[2].min, sfc.bounds[2].max];
+            } else {
+                sel_z = [
+                  Math.max(sfc.bounds[2].min, Math.min(sfc.bounds[2].max, sel_z[0])),
+                  Math.min(sfc.bounds[2].max, Math.max(sfc.bounds[2].min, sel_z[1]))
+                ];
+            }
 
             num_nodes = 1;
             for (i=0; i<3; i++) {
                 num_nodes = num_nodes * (sfc.bounds[i].max - sfc.bounds[i].min + 1);
             }
 
-
             console.log("Model:  " + sfc.name);
 
             rebuild();
+            update_selection();
         }
 
         // whether to rotate automatically
