@@ -93,7 +93,11 @@ function reset_rotation_axis(axis) {
 }
 
 function update_selection() {
-  console.log("update_selection():  #nodes = " + sfcThree.nodes.length);
+  ranges = [];
+  var node_states = [];
+  for (i=0; i<num_nodes; i++) {
+    node_states[i] = 0;
+  }
 
   sfc_group.traverse(function(geo) {
     if (geo.userData && typeof geo.userData.sfc_index != "undefined") {
@@ -102,6 +106,7 @@ function update_selection() {
       // update nodes
       if (geo.userData.sfc_type === "node") {
         if (isPointSelected(index)) {
+          node_states[index] = 1;
           geo.material = node_material_on;
           geo.material.needsUpdate = true;
         } else {
@@ -129,8 +134,29 @@ function update_selection() {
       }
     }
   });
-}
 
+  // accumulate ranges
+  var in_range = false;
+  var range_start = -1;
+  for (i=0; i<num_nodes; i++) {
+    if (node_states[i] == 1) {
+      if (!in_range) {
+        in_range = true;
+        range_start = i;
+      }
+    } else {
+      if (in_range) {
+        ranges.push({start: range_start, end: i});
+        in_range = false;
+      }
+    }
+  }
+  if (in_range) {
+    ranges.push({start: range_start, end: num_nodes - 1});
+  }
+  console.log("ranges:  " + ranges);
+  $( "#num-ranges" ).val(ranges.length);
+}
 
 
 

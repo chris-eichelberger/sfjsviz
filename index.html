@@ -30,10 +30,25 @@
         // select curve
         var sfc = sfc__R222;
 
-        // query
-        var sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
-        var sel_y = [sfc.bounds[1].min, sfc.bounds[1].max];
-        var sel_z = [sfc.bounds[2].min, sfc.bounds[2].max];
+        var sel_x = 0;
+        var sel_y = 0;
+        var sel_z = 0;
+
+        var num_nodes = 0;
+
+        function update_model() {
+            // query
+            sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
+            sel_y = [sfc.bounds[1].min, sfc.bounds[1].max];
+            sel_z = [sfc.bounds[2].min, sfc.bounds[2].max];
+
+            num_nodes = 1;
+            for (i=0; i<3; i++) {
+                num_nodes = num_nodes * (sfc.bounds[i].max - sfc.bounds[i].min + 1);
+            }
+        }
+
+        update_model();
 
         // whether to rotate automatically
         var rotate = {
@@ -42,9 +57,12 @@
           z: false
         };
 
+        // selection ranges
+        var ranges = [];
     </script>
     <script src="viz.js"></script>
 
+<!--
     <br><input type="button" id="btn_rotate_x" value="rotate x" onclick="toggle_rotation_x()"/>
     <br><input type="button" id="btn_rotate_y" value="rotate y" onclick="toggle_rotation_y()"/>
     <br><input type="button" id="btn_rotate_z" value="rotate z" onclick="toggle_rotation_z()"/>
@@ -53,6 +71,7 @@
     <br><input type="button" id="btn_reset_x" value="reset x" onclick="reset_rotation_axis('x')"/>
     <br><input type="button" id="btn_reset_y" value="reset y" onclick="reset_rotation_axis('y')"/>
     <br><input type="button" id="btn_reset_z" value="reset z" onclick="reset_rotation_axis('z')"/>
+-->
 
     <script>
   $(function() {
@@ -105,6 +124,11 @@
   </script>
 
     <p>
+        <label for="num-ranges">Number of ranges:</label>
+        <input type="text" id="num-ranges" readonly style="border:0; font-weight:bold;">
+    </p>
+
+    <p>
         <label for="x-query-range">X-query range:</label>
         <input type="text" id="x-query-range" readonly style="border:0; color:#f6931f; font-weight:bold;">
     </p>
@@ -121,6 +145,10 @@
         <input type="text" id="z-query-range" readonly style="border:0; color:#f6931f; font-weight:bold;">
     </p>
     <div id="slider-range-z" style="width:400px;"></div>
+
+    <script>
+        update_selection();
+    </script>
 
 </body>
 </html>
