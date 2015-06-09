@@ -116,10 +116,6 @@ function update_selection() {
       }
 
       if (geo.userData.sfc_type === "edge") {
-        if (index <= 5) {
-          console.log("[EDGE] index " + index + ", sel(index) " + isPointSelected(index) + ", sel(index-1) " + isPointSelected(index - 1));
-        }
-
         if (isPointSelected(index) && isPointSelected(index - 1)) {
           geo.material.setValues({
             transparent: false,
@@ -154,8 +150,14 @@ function update_selection() {
   if (in_range) {
     ranges.push({start: range_start, end: num_nodes - 1});
   }
-  console.log("ranges:  " + ranges);
+  var ranges_list = "";
+  for (i=0; i<ranges.length; i++) {
+    if (i > 0) ranges_list = ranges_list + ", ";
+    if (ranges[i].start == ranges[i].end) ranges_list = ranges_list + ranges[i].start;
+    else ranges_list = ranges_list + ranges[i].start + "-" + ranges[i].end;
+  }
   $( "#num-ranges" ).val(ranges.length);
+  $( "#range-list" ).val(ranges_list);
 }
 
 
@@ -194,7 +196,6 @@ for (var i=0; i < sfc.nodes.length; i++) {
 
 // add lines
 var last_point = getPoint(0);
-console.log(last_point)
 var px0 = last_point[0] * dx - off_x;
 var py0 = last_point[1] * dy - off_y;
 var pz0 = last_point[2] * dz - off_z;
