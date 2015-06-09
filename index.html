@@ -38,6 +38,56 @@
 
         var num_nodes = 0;
 
+        function create_sliders() {
+          $(function() {
+            $( "#slider-range-x" ).slider({
+              range: true,
+              min: sfc.bounds[0].min,
+              max: sfc.bounds[0].max,
+              values: [ sfc.bounds[0].min, sfc.bounds[0].max ],
+              slide: function( event, ui ) {
+                $( "#x-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                sel_x = [ui.values[0], ui.values[1]];
+                update_selection();
+              }
+            });
+            $( "#x-query-range" ).val( "" + $( "#slider-range-x" ).slider( "values", 0 ) +
+              " - " + $( "#slider-range-x" ).slider( "values", 1 ) );
+          });
+
+            $(function() {
+            $( "#slider-range-y" ).slider({
+              range: true,
+              min: sfc.bounds[1].min,
+              max: sfc.bounds[1].max,
+              values: [ sfc.bounds[1].min, sfc.bounds[1].max ],
+              slide: function( event, ui ) {
+                $( "#y-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                sel_y = [ui.values[0], ui.values[1]];
+                update_selection();
+              }
+            });
+            $( "#y-query-range" ).val( "" + $( "#slider-range-y" ).slider( "values", 0 ) +
+              " - " + $( "#slider-range-y" ).slider( "values", 1 ) );
+          });
+
+          $(function() {
+            $( "#slider-range-z" ).slider({
+              range: true,
+              min: sfc.bounds[2].min,
+              max: sfc.bounds[2].max,
+              values: [ sfc.bounds[2].min, sfc.bounds[2].max ],
+              slide: function( event, ui ) {
+                $( "#z-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                sel_z = [ui.values[0], ui.values[1]];
+                update_selection();
+              }
+            });
+            $( "#z-query-range" ).val( "" + $( "#slider-range-z" ).slider( "values", 0 ) +
+              " - " + $( "#slider-range-z" ).slider( "values", 1 ) );
+          });
+        }
+
         function update_model() {
             sfc = sfc__R222;
             if (curve_family == "R") {
@@ -84,7 +134,11 @@
                 num_nodes = num_nodes * (sfc.bounds[i].max - sfc.bounds[i].min + 1);
             }
 
-            console.log("Model:  " + sfc.name);
+            // update sliders for extrema
+            $( "#slider-range-x" ).slider("destroy");
+            $( "#slider-range-y" ).slider("destroy");
+            $( "#slider-range-z" ).slider("destroy");
+            create_sliders();
 
             rebuild();
             update_selection();
@@ -115,54 +169,6 @@
 
     <script>
     update_model();
-
-  $(function() {
-    $( "#slider-range-x" ).slider({
-      range: true,
-      min: sfc.bounds[0].min,
-      max: sfc.bounds[0].max,
-      values: [ sfc.bounds[0].min, sfc.bounds[0].max ],
-      slide: function( event, ui ) {
-        $( "#x-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-        sel_x = [ui.values[0], ui.values[1]];
-        update_selection();
-      }
-    });
-    $( "#x-query-range" ).val( "" + $( "#slider-range-x" ).slider( "values", 0 ) +
-      " - " + $( "#slider-range-x" ).slider( "values", 1 ) );
-  });
-
-    $(function() {
-    $( "#slider-range-y" ).slider({
-      range: true,
-      min: sfc.bounds[1].min,
-      max: sfc.bounds[1].max,
-      values: [ sfc.bounds[1].min, sfc.bounds[1].max ],
-      slide: function( event, ui ) {
-        $( "#y-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-        sel_y = [ui.values[0], ui.values[1]];
-        update_selection();
-      }
-    });
-    $( "#y-query-range" ).val( "" + $( "#slider-range-y" ).slider( "values", 0 ) +
-      " - " + $( "#slider-range-y" ).slider( "values", 1 ) );
-  });
-
-  $(function() {
-    $( "#slider-range-z" ).slider({
-      range: true,
-      min: sfc.bounds[2].min,
-      max: sfc.bounds[2].max,
-      values: [ sfc.bounds[2].min, sfc.bounds[2].max ],
-      slide: function( event, ui ) {
-        $( "#z-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-        sel_z = [ui.values[0], ui.values[1]];
-        update_selection();
-      }
-    });
-    $( "#z-query-range" ).val( "" + $( "#slider-range-z" ).slider( "values", 0 ) +
-      " - " + $( "#slider-range-z" ).slider( "values", 1 ) );
-  });
 
     function toggle_rectangle() {
       //console.log("checked:  " + $("#use-off-square").prop('checked'));
