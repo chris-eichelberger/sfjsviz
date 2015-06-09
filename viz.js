@@ -100,18 +100,22 @@ function update_selection() {
       var index = geo.userData.sfc_index;
 
       // update nodes
-      if (isPointSelected(index)) {
-        geo.material = node_material_on;
-        geo.material.needsUpdate = true;
-      } else {
-        geo.material = node_material_off;
-        geo.material.needsUpdate = true;
+      if (geo.userData.sfc_type === "node") {
+        if (isPointSelected(index)) {
+          geo.material = node_material_on;
+          geo.material.needsUpdate = true;
+        } else {
+          geo.material = node_material_off;
+          geo.material.needsUpdate = true;
+        }
       }
 
-      // update edges
-      if (index > 0) {
-        // there exists an inbound edge
-        if (isPointSelected(index - 1)) {
+      if (geo.userData.sfc_type === "edge") {
+        if (index <= 5) {
+          console.log("[EDGE] index " + index + ", sel(index) " + isPointSelected(index) + ", sel(index-1) " + isPointSelected(index - 1));
+        }
+
+        if (isPointSelected(index) && isPointSelected(index - 1)) {
           geo.material.setValues({
             transparent: false,
             opacity: 1.0
@@ -119,7 +123,7 @@ function update_selection() {
         } else {
           geo.material.setValues({
             transparent: true,
-            opacity: 0.5
+            opacity: 0.25
           });
         }
       }
@@ -198,8 +202,8 @@ for (var i=1; i < sfc.nodes.length; i++) {
   }
   var line = new THREE.Line( line_geometry, line_material );
   sfc_group.add(line);
-  node.userData["sfc_index"] = i;
-  node.userData["sfc_type"] = "edge";
+  line.userData["sfc_index"] = i;
+  line.userData["sfc_type"] = "edge";
   sfcThree.edges.push(line);
 
   last_point = point;
