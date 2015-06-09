@@ -171,6 +171,9 @@ var sfcThree = {
   edges: []
 };
 
+var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
+var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
+
 
 function render() {
   requestAnimationFrame( render );
@@ -199,8 +202,6 @@ function rebuild() {
   };
 
   // add nodes
-  var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
-  var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
   for (var i=0; i < sfc.nodes.length; i++) {
     var point = getPoint(i);
     var px = point[0] * dx - off_x;
