@@ -115,7 +115,7 @@ function reset_rotation_axis(axis) {
 }
 
 var pulses = [];
-var pulse_speed = 0.1;
+var pulse_speed = 0.001;
 var pulse_radius = unit_dist * 0.15;
 var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFF0000, transparent: true, opacity: 0.80 } );
 
@@ -130,9 +130,37 @@ function stop_all_pulses() {
 function update_pulses() {
   for (i=0; i<pulses.length; i++) {
     var pulse = pulses[i];
-    var p0 = Math.floor(pulse.userData.position);
-    var p1 = Math.floor(pulse.userData.position + 0.0001);
+    var i0 = Math.max(0, Math.min(num_nodes - 1, Math.floor(pulse.userData.position)));
+    var i1 = Math.min(num_nodes - 1, Math.max(0, Math.floor(pulse.userData.position + 0.0001)));
+    var frac = pulse.userData.position - Math.floor(pulse.userData.position);
+    var p0 = getPointVector(getPoint(i0));
+    var p1 = getPointVector(getPoint(i1));
+    pulse.position.x = p0.x + (p1.x - p0.x) * frac;
+    pulse.position.y = p0.y + (p1.y - p0.y) * frac;
+    pulse.position.z = p0.z + (p1.z - p0.z) * frac;
   }
+}
+
+function move_pulses() {
+  var toRemove = [];
+
+  for (i=0; i<pulses.length; i++) {
+    pulses[i].userData.position += pulse_speed;
+    if (pulses[i].userData.position > (num_nodes - 1.0)) {
+      toRemove.push(i);
+    }
+  }
+
+  if (pulses.length > 0) {
+    console.log("pulse position:  " + pulses[0].userData.position);
+  }
+
+  for (i=0; i<toRemove.length; i++) {
+    scene.remove(pulses[toRemove[i]]);
+    pulses.splice(toRemove[i], toRemove[i]);
+  }
+
+  update_pulses();
 }
 
 function add_pulse() {
@@ -223,6 +251,8 @@ function render() {
   if (rotate["x"]) { sfc_group.rotation.x += 0.001; }
   if (rotate["y"]) { sfc_group.rotation.y += 0.001; }
   if (rotate["z"]) { sfc_group.rotation.z += 0.001; }
+
+  move_pulses();
 
   renderer.render( scene, camera );
 }
