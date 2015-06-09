@@ -29,6 +29,8 @@
     <script>
         // select curve
         var sfc = sfc__R222;
+        var curve_family = "R";
+        var curve_shape = "square";
 
         var sel_x = 0;
         var sel_y = 0;
@@ -37,6 +39,20 @@
         var num_nodes = 0;
 
         function update_model() {
+            sfc = sfc__R222;
+            if (curve_family == "R") {
+              if (curve_shape == "square") sfc = sfc__R222;
+              else sfc = sfc__R224;
+            }
+            if (curve_family == "Z") {
+              if (curve_shape == "square") sfc = sfc__Z222;
+              else sfc = sfc__Z224;
+            }
+            if (curve_family == "H") {
+              if (curve_shape == "square") sfc = sfc__H222;
+              else sfc = sfc__H224;
+            }
+
             // query
             sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
             sel_y = [sfc.bounds[1].min, sfc.bounds[1].max];
@@ -46,9 +62,12 @@
             for (i=0; i<3; i++) {
                 num_nodes = num_nodes * (sfc.bounds[i].max - sfc.bounds[i].min + 1);
             }
-        }
 
-        update_model();
+
+            console.log("Model:  " + sfc.name);
+
+            rebuild();
+        }
 
         // whether to rotate automatically
         var rotate = {
@@ -74,6 +93,8 @@
 -->
 
     <script>
+    update_model();
+
   $(function() {
     $( "#slider-range-x" ).slider({
       range: true,
@@ -121,7 +142,21 @@
     $( "#z-query-range" ).val( "" + $( "#slider-range-z" ).slider( "values", 0 ) +
       " - " + $( "#slider-range-z" ).slider( "values", 1 ) );
   });
+
+    function toggle_rectangle() {
+      //console.log("checked:  " + $("#use-off-square").prop('checked'));
+      if ($("#use-off-square").prop('checked')) {
+        curve_shape = "rectangular";
+      } else {
+        curve_shape = "square";
+      }
+      update_model();
+    }
   </script>
+
+    <p>
+        <input type="checkbox" id="use-off-square" name="use-off-square" value="1" onclick="toggle_rectangle()">Use long-rectangle version?<br>
+    </p>
 
     <p>
         <label for="num-ranges">Number of ranges:</label>

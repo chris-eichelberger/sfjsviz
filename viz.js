@@ -171,77 +171,6 @@ var sfcThree = {
   edges: []
 };
 
-// add nodes
-var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
-var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
-for (var i=0; i < sfc.nodes.length; i++) {
-  var point = getPoint(i);
-  var px = point[0] * dx - off_x;
-  var py = point[1] * dy - off_y;
-  var pz = point[2] * dz - off_z;
-  var is_selected = isSelected(point[0], point[1], point[2]);
-
-  var node_geometry = new THREE.BoxGeometry( node_dx, node_dy, node_dz );
-  var node = null;
-  if (is_selected) node = new THREE.Mesh( node_geometry, node_material_on );
-  else node = new THREE.Mesh( node_geometry, node_material_off );
-  node.position.x = px;
-  node.position.y = py;
-  node.position.z = pz;
-  node.userData["sfc_index"] = i;
-  node.userData["sfc_type"] = "node";
-  sfc_group.add(node);
-  sfcThree.nodes.push(node);
-}
-
-// add lines
-var last_point = getPoint(0);
-var px0 = last_point[0] * dx - off_x;
-var py0 = last_point[1] * dy - off_y;
-var pz0 = last_point[2] * dz - off_z;
-var last_sel = isSelected(last_point[0], last_point[1], last_point[2]);
-for (var i=1; i < sfc.nodes.length; i++) {
-  var point = getPoint(i);
-  var px1 = point[0] * dx - off_x;
-  var py1 = point[1] * dy - off_y;
-  var pz1 = point[2] * dz - off_z;
-  var sel = isSelected(point[0], point[1], point[2]);
-
-  var line_geometry = new THREE.Geometry();
-  line_geometry.vertices.push(
-    new THREE.Vector3(px0, py0, pz0),
-    new THREE.Vector3(px1, py1, pz1)
-  )
-
-  var color = new THREE.Color();
-  var p = (i - 0.0) / (sfc.nodes.length - 1.0)
-  color.setHSL(p * 2.0/3.0, 0.8, 0.5)
-
-  var line_material = new THREE.MeshBasicMaterial();
-  line_material.color = color;
-  if (sel && last_sel) {
-    line_material.transparent = false;
-    line_material.opacity = 1.0;
-  }
-  else {
-    line_material.transparent = true;
-    line_material.opacity = 0.25;
-  }
-  var line = new THREE.Line( line_geometry, line_material );
-  sfc_group.add(line);
-  line.userData["sfc_index"] = i;
-  line.userData["sfc_type"] = "edge";
-  sfcThree.edges.push(line);
-
-  last_point = point;
-  px0 = px1;
-  py0 = py1;
-  pz0 = pz1;
-  last_sel = sel;
-}
-
-scene.add(sfc_group);
-
 
 function render() {
   requestAnimationFrame( render );
@@ -253,4 +182,96 @@ function render() {
   renderer.render( scene, camera );
 }
 render();
+
+
+function rebuild() {
+  // clear out whatever exists
+  if (scene && sfc_group) {
+    scene.remove(sfc_group)
+    for (i=sfc_group.children.length-1; i>=0; i--) {
+      scene.remove(sfc_group.children[i]);
+    }
+  }
+  sfc_group = new THREE.Group();
+  sfcThree = {
+    nodes: [],
+    edges: []
+  };
+
+  // add nodes
+  var node_material_off = new THREE.MeshBasicMaterial( { color: 0x333333, transparent: true, opacity: 0.5 } );
+  var node_material_on = new THREE.MeshBasicMaterial( { color: 0x999999, transparent: false, opacity: 1.0 } );
+  for (var i=0; i < sfc.nodes.length; i++) {
+    var point = getPoint(i);
+    var px = point[0] * dx - off_x;
+    var py = point[1] * dy - off_y;
+    var pz = point[2] * dz - off_z;
+    var is_selected = isSelected(point[0], point[1], point[2]);
+
+    var node_geometry = new THREE.BoxGeometry( node_dx, node_dy, node_dz );
+    var node = null;
+    if (is_selected) node = new THREE.Mesh( node_geometry, node_material_on );
+    else node = new THREE.Mesh( node_geometry, node_material_off );
+    node.position.x = px;
+    node.position.y = py;
+    node.position.z = pz;
+    node.userData["sfc_index"] = i;
+    node.userData["sfc_type"] = "node";
+    sfc_group.add(node);
+    sfcThree.nodes.push(node);
+  }
+
+  // add lines
+  var last_point = getPoint(0);
+  var px0 = last_point[0] * dx - off_x;
+  var py0 = last_point[1] * dy - off_y;
+  var pz0 = last_point[2] * dz - off_z;
+  var last_sel = isSelected(last_point[0], last_point[1], last_point[2]);
+  for (var i=1; i < sfc.nodes.length; i++) {
+    var point = getPoint(i);
+    var px1 = point[0] * dx - off_x;
+    var py1 = point[1] * dy - off_y;
+    var pz1 = point[2] * dz - off_z;
+    var sel = isSelected(point[0], point[1], point[2]);
+
+    var line_geometry = new THREE.Geometry();
+    line_geometry.vertices.push(
+      new THREE.Vector3(px0, py0, pz0),
+      new THREE.Vector3(px1, py1, pz1)
+    )
+
+    var color = new THREE.Color();
+    var p = (i - 0.0) / (sfc.nodes.length - 1.0)
+    color.setHSL(p * 2.0/3.0, 0.8, 0.5)
+
+    var line_material = new THREE.MeshBasicMaterial();
+    line_material.color = color;
+    if (sel && last_sel) {
+      line_material.transparent = false;
+      line_material.opacity = 1.0;
+    }
+    else {
+      line_material.transparent = true;
+      line_material.opacity = 0.25;
+    }
+    var line = new THREE.Line( line_geometry, line_material );
+    sfc_group.add(line);
+    line.userData["sfc_index"] = i;
+    line.userData["sfc_type"] = "edge";
+    sfcThree.edges.push(line);
+
+    last_point = point;
+    px0 = px1;
+    py0 = py1;
+    pz0 = pz1;
+    last_sel = sel;
+  }
+
+  scene.add(sfc_group);
+
+  render();
+}
+
+
+
 
