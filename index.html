@@ -44,7 +44,7 @@
               range: true,
               min: sfc.bounds[0].min,
               max: sfc.bounds[0].max,
-              values: [ sfc.bounds[0].min, sfc.bounds[0].max ],
+              values: [ sel_x[0], sel_x[1] ],
               slide: function( event, ui ) {
                 $( "#x-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                 sel_x = [ui.values[0], ui.values[1]];
@@ -60,7 +60,7 @@
               range: true,
               min: sfc.bounds[1].min,
               max: sfc.bounds[1].max,
-              values: [ sfc.bounds[1].min, sfc.bounds[1].max ],
+              values: [ sel_y[0], sel_y[1] ],
               slide: function( event, ui ) {
                 $( "#y-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                 sel_y = [ui.values[0], ui.values[1]];
@@ -76,7 +76,7 @@
               range: true,
               min: sfc.bounds[2].min,
               max: sfc.bounds[2].max,
-              values: [ sfc.bounds[2].min, sfc.bounds[2].max ],
+              values: [ sel_z[0], sel_z[1] ],
               slide: function( event, ui ) {
                 $( "#z-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
                 sel_z = [ui.values[0], ui.values[1]];
