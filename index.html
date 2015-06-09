@@ -32,8 +32,8 @@
 
         // query
         var sel_x = [sfc.bounds[0].min, sfc.bounds[0].max];
-        var sel_y = [1, 3];
-        var sel_z = [0, 2];
+        var sel_y = [sfc.bounds[1].min, sfc.bounds[1].max];
+        var sel_z = [sfc.bounds[2].min, sfc.bounds[2].max];
 
         // whether to rotate automatically
         var rotate = {
@@ -70,6 +70,38 @@
     $( "#x-query-range" ).val( "" + $( "#slider-range-x" ).slider( "values", 0 ) +
       " - " + $( "#slider-range-x" ).slider( "values", 1 ) );
   });
+
+    $(function() {
+    $( "#slider-range-y" ).slider({
+      range: true,
+      min: sfc.bounds[1].min,
+      max: sfc.bounds[1].max,
+      values: [ sfc.bounds[1].min, sfc.bounds[1].max ],
+      slide: function( event, ui ) {
+        $( "#y-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        sel_y = [ui.values[0], ui.values[1]];
+        update_selection();
+      }
+    });
+    $( "#y-query-range" ).val( "" + $( "#slider-range-y" ).slider( "values", 0 ) +
+      " - " + $( "#slider-range-y" ).slider( "values", 1 ) );
+  });
+
+  $(function() {
+    $( "#slider-range-z" ).slider({
+      range: true,
+      min: sfc.bounds[2].min,
+      max: sfc.bounds[2].max,
+      values: [ sfc.bounds[2].min, sfc.bounds[2].max ],
+      slide: function( event, ui ) {
+        $( "#z-query-range" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        sel_z = [ui.values[0], ui.values[1]];
+        update_selection();
+      }
+    });
+    $( "#z-query-range" ).val( "" + $( "#slider-range-z" ).slider( "values", 0 ) +
+      " - " + $( "#slider-range-z" ).slider( "values", 1 ) );
+  });
   </script>
 
     <p>
@@ -78,5 +110,17 @@
     </p>
     <div id="slider-range-x" style="width:400px;"></div>
 
-    </body>
+    <p>
+        <label for="y-query-range">Y-query range:</label>
+        <input type="text" id="y-query-range" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    </p>
+    <div id="slider-range-y" style="width:400px;"></div>
+
+    <p>
+        <label for="z-query-range">Z-query range:</label>
+        <input type="text" id="z-query-range" readonly style="border:0; color:#f6931f; font-weight:bold;">
+    </p>
+    <div id="slider-range-z" style="width:400px;"></div>
+
+</body>
 </html>
