@@ -152,12 +152,17 @@
       }
       update_model();
     }
+
+    function switch_model() {
+      curve_family = $("input[name=model-type]:checked").val();
+      update_model();
+    }
   </script>
 
     <p>
-        <input type="radio" name="model-type" value="R" checked="true">row-major<br>
-        <input type="radio" name="model-type" value="Z">Z-order<br>
-        <input type="radio" name="model-type" value="H">(compact) Hilbert<br>
+        <input type="radio" name="model-type" value="R" onclick="switch_model()" checked="true">row-major<br>
+        <input type="radio" name="model-type" value="Z" onclick="switch_model()">Z-order<br>
+        <input type="radio" name="model-type" value="H" onclick="switch_model()">(compact) Hilbert<br>
     </p>
 
     <p>
