@@ -117,11 +117,11 @@ function reset_rotation_axis(axis) {
 var pulses = [];
 var pulse_speed = 0.001;
 var pulse_radius = unit_dist * 0.15;
-var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFF0000, transparent: true, opacity: 0.80 } );
+var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
 
 function stop_all_pulses() {
   for (i=0; i<pulses.length; i++) {
-    scene.remove(pulses[i].obj);
+    scene.remove(pulses[i]);
   }
   pulses = [];
   render();
@@ -135,9 +135,7 @@ function update_pulses() {
     var frac = pulse.userData.position - Math.floor(pulse.userData.position);
     var p0 = getPointVector(getPoint(i0));
     var p1 = getPointVector(getPoint(i1));
-    pulse.position.x = p0.x + (p1.x - p0.x) * frac;
-    pulse.position.y = p0.y + (p1.y - p0.y) * frac;
-    pulse.position.z = p0.z + (p1.z - p0.z) * frac;
+    pulse.position.set(p0.x + (p1.x - p0.x) * frac, p0.y + (p1.y - p0.y) * frac, p0.z + (p1.z - p0.z) * frac);
   }
 }
 
@@ -149,10 +147,6 @@ function move_pulses() {
     if (pulses[i].userData.position > (num_nodes - 1.0)) {
       toRemove.push(i);
     }
-  }
-
-  if (pulses.length > 0) {
-    console.log("pulse position:  " + pulses[0].userData.position);
   }
 
   for (i=0; i<toRemove.length; i++) {
@@ -170,7 +164,7 @@ function add_pulse() {
   pulse.position = pulse_point;
   pulse.userData["position"] = 0.0;
   pulses.push(pulse);
-  sfc_group.add(pulse);
+  scene.add(pulse);
 
   render();
 }
