@@ -3,7 +3,7 @@ var view_height = view_width / 16.0 * 9.0;
 var view_ratio = view_width / view_height;
 
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 90, view_ratio, 0.1, 1000 );
+var camera = new THREE.PerspectiveCamera( 75, view_ratio, 0.1, 1000 );
 camera.position.z = 5;
 
 var renderer = new THREE.WebGLRenderer();
@@ -142,7 +142,7 @@ function update_selection() {
       }
     } else {
       if (in_range) {
-        ranges.push({start: range_start, end: i});
+        ranges.push({start: range_start, end: i-1});
         in_range = false;
       }
     }
