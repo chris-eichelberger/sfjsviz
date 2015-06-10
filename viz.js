@@ -131,11 +131,18 @@ function update_pulses() {
   for (i=0; i<pulses.length; i++) {
     var pulse = pulses[i];
     var i0 = Math.max(0, Math.min(num_nodes - 1, Math.floor(pulse.userData.position)));
-    var i1 = Math.min(num_nodes - 1, Math.max(0, Math.floor(pulse.userData.position + 0.0001)));
+    var i1 = Math.min(num_nodes - 1, Math.max(0, Math.ceil(pulse.userData.position + 0.0001)));
     var frac = pulse.userData.position - Math.floor(pulse.userData.position);
     var p0 = getPointVector(getPoint(i0));
     var p1 = getPointVector(getPoint(i1));
-    pulse.position.set(p0.x + (p1.x - p0.x) * frac, p0.y + (p1.y - p0.y) * frac, p0.z + (p1.z - p0.z) * frac);
+    var delta_x = (p1.x - p0.x) * 1.0;
+    var delta_y = (p1.y - p0.y) * 1.0;
+    var delta_z = (p1.z - p0.z) * 1.0;
+    pulse.position.set(p0.x + delta_x * frac, p0.y + delta_y * frac, p0.z + delta_z * frac);
+    //var new_x = p0.x + delta_x * frac;
+    //var new_y = p0.y + delta_y * frac;
+    //var new_z = p0.z + delta_z * frac;
+    //console.log("i0 " + i0 + ", p0(" + p0.x + ", " + p0.y + ", " + p0.z + "), i1 " + i1 + ", p1(" + p1.x + ", " + p1.y + ", " + p1.z + "), delta(" + delta_x + ", " + delta_y + ", " + delta_z + "), frac " + frac + ", (" + new_x + ", " + new_y + ", " + new_z + ") -> POS(" + pulse.position.x + ", " + pulse.position.y + ", " + pulse.position.z + ")");
   }
 }
 
@@ -144,6 +151,7 @@ function move_pulses() {
 
   for (i=0; i<pulses.length; i++) {
     pulses[i].userData.position += pulse_speed;
+    //pulses[i].userData.position = 0.33333;
     if (pulses[i].userData.position > (num_nodes - 1.0)) {
       toRemove.push(i);
     }
