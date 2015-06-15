@@ -140,13 +140,12 @@ function move_pulses() {
   for (i=0; i<pulses.length; i++) {
     seconds = (now_ms - pulses[i].userData.last_ms) / 1000.0;
     pulses[i].userData.position = pulse_speed_units_per_sec * seconds;
-    //pulses[i].userData.position = 0.33333;
     if (pulses[i].userData.position > (num_nodes - 1.0)) {
       toRemove.push(i);
     }
   }
 
-  for (i=0; i<toRemove.length; i++) {
+  for (i=toRemove.length-1; i>=0; i++) {
     scene.remove(pulses[toRemove[i]]);
     pulses.splice(toRemove[i], toRemove[i]);
   }
