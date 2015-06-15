@@ -26,11 +26,18 @@
     <script src="data/z(2,2,4).js"></script>
     <script src="data/r(2,2,2).js"></script>
     <script src="data/r(2,2,4).js"></script>
+
+    <script src="data/r(2,z(2,2)).js"></script>
+    <script src="data/r(2,h(2,2)).js"></script>
+    <script src="data/z(2,r(2,2)).js"></script>
+    <script src="data/z(2,h(2,2)).js"></script>
+    <script src="data/h(2,r(2,2)).js"></script>
+    <script src="data/h(2,z(2,2)).js"></script>
+
     <script>
         // select curve
         var sfc = sfc__R222;
-        var curve_family = "R";
-        var curve_shape = "square";
+        var curve_name = "R222";
 
         var sel_x = 0;
         var sel_y = 0;
@@ -92,17 +99,29 @@
 
         function update_model() {
             sfc = sfc__R222;
-            if (curve_family == "R") {
-              if (curve_shape == "square") sfc = sfc__R222;
-              else sfc = sfc__R224;
+            if (curve_name == "R222") {
+                sfc = sfc__R222;
             }
-            if (curve_family == "Z") {
-              if (curve_shape == "square") sfc = sfc__Z222;
-              else sfc = sfc__Z224;
+            if (curve_name == "Z222") {
+                sfc = sfc__Z222;
             }
-            if (curve_family == "H") {
-              if (curve_shape == "square") sfc = sfc__H222;
-              else sfc = sfc__H224;
+            if (curve_name == "H222") {
+                sfc = sfc__H222;
+            }
+            if (curve_name == "R224") {
+                sfc = sfc__R224;
+            }
+            if (curve_name == "Z224") {
+                sfc = sfc__Z224;
+            }
+            if (curve_name == "H224") {
+                sfc = sfc__H224;
+            }
+            if (curve_name == "R2Z22") {
+                sfc = sfc__R2Z22;
+            }
+            if (curve_name == "R2H22") {
+                sfc = sfc__R2H22;
             }
 
             // ensure sortedness
@@ -170,30 +189,27 @@
     <script>
     update_model();
 
-    function toggle_rectangle() {
-      //console.log("checked:  " + $("#use-off-square").prop('checked'));
-      if ($("#use-off-square").prop('checked')) {
-        curve_shape = "rectangular";
-      } else {
-        curve_shape = "square";
-      }
-      update_model();
-    }
-
     function switch_model() {
-      curve_family = $("input[name=model-type]:checked").val();
+      curve_name = $("input[name=model-type]:checked").val();
       update_model();
     }
   </script>
 
     <p>
-        <input type="radio" name="model-type" value="R" onclick="switch_model()" checked="true">row-major<br>
-        <input type="radio" name="model-type" value="Z" onclick="switch_model()">Z-order<br>
-        <input type="radio" name="model-type" value="H" onclick="switch_model()">(compact) Hilbert<br>
+        <input type="radio" name="model-type" value="R222" onclick="switch_model()" checked="true">row-major, square<br>
+        <input type="radio" name="model-type" value="Z222" onclick="switch_model()">Z-order, square<br>
+        <input type="radio" name="model-type" value="H222" onclick="switch_model()">Hilbert, square<br>
     </p>
 
     <p>
-        <input type="checkbox" id="use-off-square" name="use-off-square" value="1" onclick="toggle_rectangle()">Use long-rectangle version?<br>
+        <input type="radio" name="model-type" value="R224" onclick="switch_model()">row-major, oblong<br>
+        <input type="radio" name="model-type" value="Z224" onclick="switch_model()">Z-order, oblong<br>
+        <input type="radio" name="model-type" value="H224" onclick="switch_model()">compact Hilbert, oblong<br>
+    </p>
+
+    <p>
+        <input type="radio" name="model-type" value="R2Z22" onclick="switch_model()">R(2,Z(2,2))<br>
+        <input type="radio" name="model-type" value="R2H22" onclick="switch_model()">R(2,H(2,2))<br>
     </p>
 
     <p>
