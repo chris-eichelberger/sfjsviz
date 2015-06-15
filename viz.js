@@ -95,32 +95,13 @@ function isPointSelected(index) {
   return isSelected(point[0], point[1], point[2]);
 }
 
-function toggle_rotation() {
-  rotate = !rotate;
-  if (rotate) $( "#btn_rotate" )[0].value = "stop rotating";
-  else $( "#btn_rotate" )[0].value = "rotate";
-}
-
-function toggle_rotation_axis(axis) {
-  rotate[axis] = !rotate[axis];
-  var btnid = "#btn_rotate_" + axis;
-  if (rotate[axis]) $( btnid )[0].value = "stop rotating " + axis;
-  else $( btnid )[0].value = "rotate " + axis;
-}
-
-function toggle_rotation_x() { toggle_rotation_axis("x"); }
-function toggle_rotation_y() { toggle_rotation_axis("y"); }
-function toggle_rotation_z() { toggle_rotation_axis("z"); }
-
-function reset_rotation_axis(axis) {
-  sfc_group.rotation[axis] = 0.0;
-}
 
 var pulses = [];
 var pulse_speed_units_per_sec = 1.0;
 var pulse_radius = unit_dist * 0.15;
 //var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
 var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: false, opacity: 0.80 } );
+var pulse_segments = 16;
 
 function stop_all_pulses() {
   for (i=0; i<pulses.length; i++) {
@@ -175,7 +156,7 @@ function move_pulses() {
 
 function add_pulse() {
   var pulse_point = getPointVector(getPoint(0));
-  var pulse_geom = new THREE.SphereGeometry(pulse_radius, 32, 32);
+  var pulse_geom = new THREE.SphereGeometry(pulse_radius, pulse_segments, pulse_segments);
   var pulse = new THREE.Mesh( pulse_geom, pulse_material );
   pulse.position = pulse_point;
   pulse.userData["position"] = 0.0;
@@ -325,7 +306,7 @@ function rebuild() {
 
     var color = new THREE.Color();
     var p = (i - 0.0) / (sfc.nodes.length - 1.0)
-    color.setHSL(p * 2.0/3.0, 1.0, 0.75)
+    color.setHSL((1.0 - p) * 2.0/3.0, 1.0, 0.75)
 
     var line_material = new THREE.MeshBasicMaterial();
     line_material.color = color;
