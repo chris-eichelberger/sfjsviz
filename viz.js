@@ -115,7 +115,7 @@ function reset_rotation_axis(axis) {
 }
 
 var pulses = [];
-var pulse_speed = 0.001;
+var pulse_speed_units_per_sec = 1.0;
 var pulse_radius = unit_dist * 0.15;
 var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
 
@@ -147,10 +147,15 @@ function update_pulses() {
 }
 
 function move_pulses() {
+  if (pulses.length < 1) return;
+
   var toRemove = [];
+  var seconds = 0;
+  var now_ms = (new Date()).getTime();
 
   for (i=0; i<pulses.length; i++) {
-    pulses[i].userData.position += pulse_speed;
+    seconds = (now_ms - pulses[i].userData.last_ms) / 1000.0;
+    pulses[i].userData.position = pulse_speed_units_per_sec * seconds;
     //pulses[i].userData.position = 0.33333;
     if (pulses[i].userData.position > (num_nodes - 1.0)) {
       toRemove.push(i);
@@ -171,6 +176,7 @@ function add_pulse() {
   var pulse = new THREE.Mesh( pulse_geom, pulse_material );
   pulse.position = pulse_point;
   pulse.userData["position"] = 0.0;
+  pulse.userData["last_ms"] = (new Date()).getTime();
   pulses.push(pulse);
   scene.add(pulse);
 
