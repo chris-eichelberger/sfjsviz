@@ -1,5 +1,5 @@
-var view_width = 1024;
-var view_height = view_width / 16.0 * 9.0;
+var view_width = 800;
+var view_height = view_width / 4.0 * 3.0;
 var view_ratio = view_width / view_height;
 
 var scene = new THREE.Scene();
@@ -29,7 +29,7 @@ var cells_y = 1 + (sfc.bounds[1].max - sfc.bounds[1].min);
 var cells_z = 1 + (sfc.bounds[2].max - sfc.bounds[2].min);
 var max_cells = Math.max(cells_x, cells_y, cells_z);
 
-var max_size = 7.0;
+var max_size = 5.0;
 
 var unit_dist = max_size / max_cells;
 

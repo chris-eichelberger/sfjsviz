@@ -123,6 +123,18 @@
             if (curve_name == "R2H22") {
                 sfc = sfc__R2H22;
             }
+            if (curve_name == "Z2R22") {
+                sfc = sfc__Z2R22;
+            }
+            if (curve_name == "Z2H22") {
+                sfc = sfc__Z2H22;
+            }
+            if (curve_name == "H2R22") {
+                sfc = sfc__H2R22;
+            }
+            if (curve_name == "H2Z22") {
+                sfc = sfc__H2Z22;
+            }
 
             // ensure sortedness
             if (typeof(ever_sorted[sfc.name]) === "undefined") {
@@ -196,20 +208,18 @@
   </script>
 
     <p>
-        <input type="radio" name="model-type" value="R222" onclick="switch_model()" checked="true">row-major, square<br>
-        <input type="radio" name="model-type" value="Z222" onclick="switch_model()">Z-order, square<br>
-        <input type="radio" name="model-type" value="H222" onclick="switch_model()">Hilbert, square<br>
-    </p>
-
-    <p>
-        <input type="radio" name="model-type" value="R224" onclick="switch_model()">row-major, oblong<br>
-        <input type="radio" name="model-type" value="Z224" onclick="switch_model()">Z-order, oblong<br>
-        <input type="radio" name="model-type" value="H224" onclick="switch_model()">compact Hilbert, oblong<br>
+        <input type="radio" name="model-type" value="R222" onclick="switch_model()" checked="true">R(2,2,2)<br>
+        <input type="radio" name="model-type" value="Z222" onclick="switch_model()">Z(2,2,2)<br>
+        <input type="radio" name="model-type" value="H222" onclick="switch_model()">H(2,2,2)<br>
     </p>
 
     <p>
         <input type="radio" name="model-type" value="R2Z22" onclick="switch_model()">R(2,Z(2,2))<br>
         <input type="radio" name="model-type" value="R2H22" onclick="switch_model()">R(2,H(2,2))<br>
+        <input type="radio" name="model-type" value="Z2R22" onclick="switch_model()">Z(2,R(2,2))<br>
+        <input type="radio" name="model-type" value="Z2H22" onclick="switch_model()">Z(2,H(2,2))<br>
+        <input type="radio" name="model-type" value="H2R22" onclick="switch_model()">H(2,R(2,2))<br>
+        <input type="radio" name="model-type" value="H2Z22" onclick="switch_model()">H(2,Z(2,2))<br>
     </p>
 
     <p>
