@@ -97,7 +97,7 @@ function isPointSelected(index) {
 
 
 var pulses = [];
-var pulse_speed_units_per_sec = 1.0;
+var pulse_speed_units_per_sec = 5.0;
 var pulse_radius = unit_dist * 0.15;
 //var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
 var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: false, opacity: 0.80 } );
@@ -123,10 +123,6 @@ function update_pulses() {
     var delta_y = (p1.y - p0.y) * 1.0;
     var delta_z = (p1.z - p0.z) * 1.0;
     pulse.position.set(p0.x + delta_x * frac, p0.y + delta_y * frac, p0.z + delta_z * frac);
-    //var new_x = p0.x + delta_x * frac;
-    //var new_y = p0.y + delta_y * frac;
-    //var new_z = p0.z + delta_z * frac;
-    //console.log("i0 " + i0 + ", p0(" + p0.x + ", " + p0.y + ", " + p0.z + "), i1 " + i1 + ", p1(" + p1.x + ", " + p1.y + ", " + p1.z + "), delta(" + delta_x + ", " + delta_y + ", " + delta_z + "), frac " + frac + ", (" + new_x + ", " + new_y + ", " + new_z + ") -> POS(" + pulse.position.x + ", " + pulse.position.y + ", " + pulse.position.z + ")");
   }
 }
 
@@ -141,14 +137,31 @@ function move_pulses() {
     seconds = (now_ms - pulses[i].userData.last_ms) / 1000.0;
     pulses[i].userData.position = pulse_speed_units_per_sec * seconds;
     if (pulses[i].userData.position > (num_nodes - 1.0)) {
-      toRemove.push(i);
+      toRemove[i] = true;
+    } else {
+      toRemove[i] = false;
     }
   }
 
-  for (i=toRemove.length-1; i>=0; i++) {
-    scene.remove(pulses[toRemove[i]]);
-    pulses.splice(toRemove[i], toRemove[i]);
+  var new_pulses = [];
+  var j=0, k=0;
+  for (i=0; i<pulses.length; i++) {
+    if (toRemove[i]) scene.remove(pulses[i]);
+    else new_pulses.push(pulses[i]);
   }
+
+  if (new_pulses.length != pulses.length) {
+  console.log("Old pulses:");
+  for (i=0; i<pulses.length; i++) {
+    console.log(pulses[i].userData["last_ms"]);
+  }
+  console.log("New pulses:");
+  for (i=0; i<new_pulses.length; i++) {
+    console.log(new_pulses[i].userData["last_ms"]);
+  }
+  }
+
+  pulses = new_pulses;
 
   update_pulses();
 }
