@@ -24,11 +24,6 @@ controls.addEventListener( 'change', render );
 
 
 
-var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var cube = new THREE.Mesh( geometry, material );
-//scene.add( cube );
-
 var cells_x = 1 + (sfc.bounds[0].max - sfc.bounds[0].min);
 var cells_y = 1 + (sfc.bounds[1].max - sfc.bounds[1].min);
 var cells_z = 1 + (sfc.bounds[2].max - sfc.bounds[2].min);
@@ -99,7 +94,6 @@ function isPointSelected(index) {
 var pulses = [];
 var pulse_speed_units_per_sec = 1.0;
 var pulse_radius = unit_dist * 0.15;
-//var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
 var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: false, opacity: 0.80 } );
 var pulse_segments = 16;
 
@@ -251,10 +245,6 @@ function update_selection() {
 
 function render() {
   requestAnimationFrame( render );
-
-  if (rotate["x"]) { sfc_group.rotation.x += 0.001; }
-  if (rotate["y"]) { sfc_group.rotation.y += 0.001; }
-  if (rotate["z"]) { sfc_group.rotation.z += 0.001; }
 
   move_pulses();
 
