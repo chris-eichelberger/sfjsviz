@@ -42,9 +42,11 @@ var dx = unit_dist;
 var dy = unit_dist;
 var dz = unit_dist;
 
-var node_dx = unit_dist * 0.1;
-var node_dy = unit_dist * 0.1;
-var node_dz = unit_dist * 0.1;
+var node_factor = 0.075
+
+var node_dx = unit_dist * node_factor;
+var node_dy = unit_dist * node_factor;
+var node_dz = unit_dist * node_factor;
 
 var off_x = 0.5 * dx * cells_x;
 var off_y = 0.5 * dy * cells_y;
@@ -117,7 +119,8 @@ function reset_rotation_axis(axis) {
 var pulses = [];
 var pulse_speed_units_per_sec = 1.0;
 var pulse_radius = unit_dist * 0.15;
-var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
+//var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
+var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: false, opacity: 0.80 } );
 
 function stop_all_pulses() {
   for (i=0; i<pulses.length; i++) {
@@ -322,7 +325,7 @@ function rebuild() {
 
     var color = new THREE.Color();
     var p = (i - 0.0) / (sfc.nodes.length - 1.0)
-    color.setHSL(p * 2.0/3.0, 0.8, 0.5)
+    color.setHSL(p * 2.0/3.0, 1.0, 0.75)
 
     var line_material = new THREE.MeshBasicMaterial();
     line_material.color = color;
