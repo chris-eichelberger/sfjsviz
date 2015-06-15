@@ -38,6 +38,8 @@
 
         var num_nodes = 0;
 
+        var ever_sorted = {};
+
         function create_sliders() {
           $(function() {
             $( "#slider-range-x" ).slider({
@@ -101,6 +103,15 @@
             if (curve_family == "H") {
               if (curve_shape == "square") sfc = sfc__H222;
               else sfc = sfc__H224;
+            }
+
+            // ensure sortedness
+            if (typeof(ever_sorted[sfc.name]) === "undefined") {
+              sfc.nodes.sort(function(a, b) {
+                return a.index - b.index;
+              });
+              console.log(sfc.nodes);
+              ever_sorted[sfc.name] = true;
             }
 
             // query

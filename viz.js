@@ -75,8 +75,8 @@ function getPointVector(point) {
 }
 
 function getPoint(index) {
-  for (var k=0; k<sfc.nodes.length; k++) {
-    if (sfc.nodes[k].index == index) return sfc.nodes[k].point;
+  if (index >= 0 && index < sfc.nodes.length) {
+    return sfc.nodes[index].point;
   }
   console.log("Failed to find point:  index " + index + ", #points " + sfc.nodes.length)
   return null;
