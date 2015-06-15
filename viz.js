@@ -308,7 +308,7 @@ function rebuild() {
 
     var color = new THREE.Color();
     var p = (i - 0.0) / (sfc.nodes.length - 1.0)
-    color.setHSL((1.0 - p) * 2.0/3.0, 1.0, 0.75)
+    color.setHSL((1.0 - p) * 2.0/3.0, 1.0, 0.5)
 
     var line_material = new THREE.MeshBasicMaterial();
     line_material.color = color;
