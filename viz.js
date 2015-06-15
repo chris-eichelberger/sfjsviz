@@ -1,4 +1,4 @@
-var view_width = 800;
+var view_width = 1024;
 var view_height = view_width / 16.0 * 9.0;
 var view_ratio = view_width / view_height;
 
@@ -97,7 +97,7 @@ function isPointSelected(index) {
 
 
 var pulses = [];
-var pulse_speed_units_per_sec = 5.0;
+var pulse_speed_units_per_sec = 1.0;
 var pulse_radius = unit_dist * 0.15;
 //var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: true, opacity: 0.80 } );
 var pulse_material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, transparent: false, opacity: 0.80 } );
