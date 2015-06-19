@@ -1,5 +1,5 @@
-var sfc__Z222 = {
-	name: "Z222",
+var sfc__RR222 = {
+	name: "RR222",
 	num_dimensions:  3,
 	bounds:  [
 		{ min: 0, max: 3 },
@@ -16,115 +16,115 @@ var sfc__Z222 = {
 			point:  [0, 0, 1]
 		},
 		{
-			index:  8,
+			index:  2,
 			point:  [0, 0, 2]
 		},
 		{
-			index:  9,
+			index:  3,
 			point:  [0, 0, 3]
 		},
 		{
-			index:  2,
+			index:  4,
 			point:  [0, 1, 0]
 		},
 		{
-			index:  3,
+			index:  5,
 			point:  [0, 1, 1]
 		},
 		{
-			index:  10,
+			index:  6,
 			point:  [0, 1, 2]
 		},
 		{
-			index:  11,
+			index:  7,
 			point:  [0, 1, 3]
 		},
 		{
-			index:  16,
+			index:  8,
 			point:  [0, 2, 0]
 		},
 		{
-			index:  17,
+			index:  9,
 			point:  [0, 2, 1]
 		},
 		{
-			index:  24,
+			index:  10,
 			point:  [0, 2, 2]
 		},
 		{
-			index:  25,
+			index:  11,
 			point:  [0, 2, 3]
 		},
 		{
-			index:  18,
+			index:  12,
 			point:  [0, 3, 0]
 		},
 		{
-			index:  19,
+			index:  13,
 			point:  [0, 3, 1]
 		},
 		{
-			index:  26,
+			index:  14,
 			point:  [0, 3, 2]
 		},
 		{
-			index:  27,
+			index:  15,
 			point:  [0, 3, 3]
 		},
 		{
-			index:  4,
+			index:  16,
 			point:  [1, 0, 0]
 		},
 		{
-			index:  5,
+			index:  17,
 			point:  [1, 0, 1]
 		},
 		{
-			index:  12,
+			index:  18,
 			point:  [1, 0, 2]
 		},
 		{
-			index:  13,
+			index:  19,
 			point:  [1, 0, 3]
 		},
 		{
-			index:  6,
+			index:  20,
 			point:  [1, 1, 0]
 		},
 		{
-			index:  7,
+			index:  21,
 			point:  [1, 1, 1]
 		},
 		{
-			index:  14,
+			index:  22,
 			point:  [1, 1, 2]
 		},
 		{
-			index:  15,
+			index:  23,
 			point:  [1, 1, 3]
 		},
 		{
-			index:  20,
+			index:  24,
 			point:  [1, 2, 0]
 		},
 		{
-			index:  21,
+			index:  25,
 			point:  [1, 2, 1]
 		},
 		{
-			index:  28,
+			index:  26,
 			point:  [1, 2, 2]
 		},
 		{
-			index:  29,
+			index:  27,
 			point:  [1, 2, 3]
 		},
 		{
-			index:  22,
+			index:  28,
 			point:  [1, 3, 0]
 		},
 		{
-			index:  23,
+			index:  29,
 			point:  [1, 3, 1]
 		},
 		{
@@ -144,115 +144,115 @@ var sfc__Z222 = {
 			point:  [2, 0, 1]
 		},
 		{
-			index:  40,
+			index:  34,
 			point:  [2, 0, 2]
 		},
 		{
-			index:  41,
+			index:  35,
 			point:  [2, 0, 3]
 		},
 		{
-			index:  34,
+			index:  36,
 			point:  [2, 1, 0]
 		},
 		{
-			index:  35,
+			index:  37,
 			point:  [2, 1, 1]
 		},
 		{
-			index:  42,
+			index:  38,
 			point:  [2, 1, 2]
 		},
 		{
-			index:  43,
+			index:  39,
 			point:  [2, 1, 3]
 		},
 		{
-			index:  48,
+			index:  40,
 			point:  [2, 2, 0]
 		},
 		{
-			index:  49,
+			index:  41,
 			point:  [2, 2, 1]
 		},
 		{
-			index:  56,
+			index:  42,
 			point:  [2, 2, 2]
 		},
 		{
-			index:  57,
+			index:  43,
 			point:  [2, 2, 3]
 		},
 		{
-			index:  50,
+			index:  44,
 			point:  [2, 3, 0]
 		},
 		{
-			index:  51,
+			index:  45,
 			point:  [2, 3, 1]
 		},
 		{
-			index:  58,
+			index:  46,
 			point:  [2, 3, 2]
 		},
 		{
-			index:  59,
+			index:  47,
 			point:  [2, 3, 3]
 		},
 		{
-			index:  36,
+			index:  48,
 			point:  [3, 0, 0]
 		},
 		{
-			index:  37,
+			index:  49,
 			point:  [3, 0, 1]
 		},
 		{
-			index:  44,
+			index:  50,
 			point:  [3, 0, 2]
 		},
 		{
-			index:  45,
+			index:  51,
 			point:  [3, 0, 3]
 		},
 		{
-			index:  38,
+			index:  52,
 			point:  [3, 1, 0]
 		},
 		{
-			index:  39,
+			index:  53,
 			point:  [3, 1, 1]
 		},
 		{
-			index:  46,
+			index:  54,
 			point:  [3, 1, 2]
 		},
 		{
-			index:  47,
+			index:  55,
 			point:  [3, 1, 3]
 		},
 		{
-			index:  52,
+			index:  56,
 			point:  [3, 2, 0]
 		},
 		{
-			index:  53,
+			index:  57,
 			point:  [3, 2, 1]
 		},
 		{
-			index:  60,
+			index:  58,
 			point:  [3, 2, 2]
 		},
 		{
-			index:  61,
+			index:  59,
 			point:  [3, 2, 3]
 		},
 		{
-			index:  54,
+			index:  60,
 			point:  [3, 3, 0]
 		},
 		{
-			index:  55,
+			index:  61,
 			point:  [3, 3, 1]
 		},
 		{

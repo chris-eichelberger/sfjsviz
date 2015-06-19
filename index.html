@@ -7,7 +7,7 @@
         body { margin: 0; }
         canvas { width: 100%; height: 100% }
 
-        input { width:100px; }
+        input.button { width:120px; }
     </style>
 
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -20,24 +20,29 @@
     <script src="OrbitControls.js"></script>
     <script src=""jquery-ui.js></script>
 
-    <script src="data/h(2,2,2).js"></script>
-    <script src="data/h(2,2,4).js"></script>
-    <script src="data/z(2,2,2).js"></script>
-    <script src="data/z(2,2,4).js"></script>
-    <script src="data/r(2,2,2).js"></script>
-    <script src="data/r(2,2,4).js"></script>
-
-    <script src="data/r(2,z(2,2)).js"></script>
-    <script src="data/r(2,h(2,2)).js"></script>
-    <script src="data/z(2,r(2,2)).js"></script>
-    <script src="data/z(2,h(2,2)).js"></script>
-    <script src="data/h(2,r(2,2)).js"></script>
-    <script src="data/h(2,z(2,2)).js"></script>
+    <script src="data/R2R22.js"></script>
+    <script src="data/RR222.js"></script>
+    <script src="data/R2Z22.js"></script>
+    <script src="data/RZ222.js"></script>
+    <script src="data/R2H22.js"></script>
+    <script src="data/RH222.js"></script>
+    <script src="data/Z2R22.js"></script>
+    <script src="data/ZR222.js"></script>
+    <script src="data/Z2Z22.js"></script>
+    <script src="data/ZZ222.js"></script>
+    <script src="data/Z2H22.js"></script>
+    <script src="data/ZH222.js"></script>
+    <script src="data/H2R22.js"></script>
+    <script src="data/HR222.js"></script>
+    <script src="data/H2Z22.js"></script>
+    <script src="data/HZ222.js"></script>
+    <script src="data/H2H22.js"></script>
+    <script src="data/HH222.js"></script>
 
     <script>
         // select curve
-        var sfc = sfc__R222;
-        var curve_name = "R222";
+        var sfc = sfc__R2R22;
+        var curve_name = "R2R22";
 
         var sel_x = 0;
         var sel_y = 0;
@@ -98,34 +103,8 @@
         }
 
         function update_model() {
-            sfc = sfc__R222;
-            if (curve_name == "RR") {
-                sfc = sfc__R222;
-            }
-            if (curve_name == "ZZ") {
-                sfc = sfc__Z222;
-            }
-            if (curve_name == "HH") {
-                sfc = sfc__H222;
-            }
-            if (curve_name == "RZ") {
-                sfc = sfc__R2Z22;
-            }
-            if (curve_name == "RH") {
-                sfc = sfc__R2H22;
-            }
-            if (curve_name == "ZR") {
-                sfc = sfc__Z2R22;
-            }
-            if (curve_name == "ZH") {
-                sfc = sfc__Z2H22;
-            }
-            if (curve_name == "HR") {
-                sfc = sfc__H2R22;
-            }
-            if (curve_name == "HZ") {
-                sfc = sfc__H2Z22;
-            }
+            sfc = sfc__R2R22;
+            sfc = window["sfc__" + curve_name];
 
             // ensure sortedness
             if (typeof(ever_sorted[sfc.name]) === "undefined") {
@@ -193,7 +172,13 @@
     update_model();
 
     function switch_model() {
-      curve_name = $("input[name=model-type-0]:checked").val() + $("input[name=model-type-1]:checked").val();
+      var child_curve = $("input[name=model-type-1]:checked").val() + "22";
+      if ($("input[name=model-order]:checked").val() === "true") {
+        curve_name = $("input[name=model-type-0]:checked").val() + "2" + child_curve;
+      } else {
+        curve_name = $("input[name=model-type-0]:checked").val() + child_curve + "2";
+      }
+
       update_model();
     }
 
@@ -201,19 +186,29 @@
 
     <table>
         <tr>
+            <th>top-level</th>
+            <th style="width:30px;">&nbsp;</th>
+            <th>bottom-level</th>
+            <th style="width:30px;">&nbsp;</th>
+            <th>child order</th>
+        </tr>
+        <tr>
             <td>
-                <p>
-                    <input type="radio" name="model-type-0" value="R" onclick="switch_model()" checked="true">Row-major<br>
-                    <input type="radio" name="model-type-0" value="Z" onclick="switch_model()">Z-order<br>
-                    <input type="radio" name="model-type-0" value="H" onclick="switch_model()">Hilbert<br>
-                </p>
+                <input type="radio" name="model-type-0" value="R" onclick="switch_model()" checked="true">Row-major<br>
+                <input type="radio" name="model-type-0" value="Z" onclick="switch_model()">Z-order<br>
+                <input type="radio" name="model-type-0" value="H" onclick="switch_model()">Hilbert<br>
             </td>
+            <td style="width:30px;">&nbsp;</td>
             <td>
-                <p>
-                    <input type="radio" name="model-type-1" value="R" onclick="switch_model()" checked="true">Row-major<br>
-                    <input type="radio" name="model-type-1" value="Z" onclick="switch_model()">Z-order<br>
-                    <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
-                </p>
+                <input type="radio" name="model-type-1" value="" onclick="switch_model()" checked="true">Row-major<br>
+                <input type="radio" name="model-type-1" value="Z" onclick="switch_model()">Z-order<br>
+                <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
+                <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
+            </td>
+            <td style="width:30px;">&nbsp;</td>
+            <td>
+                <input type="radio" name="model-order" value="true" onclick="switch_model()" checked="true">literal first<br>
+                <input type="radio" name="model-order" value="false" onclick="switch_model()">curve first<br>
             </td>
         </tr>
     </table>
@@ -247,8 +242,8 @@
     <div id="slider-range-z" style="width:400px;"></div>
 
     <p>
-        <br><input type="button" id="btn_pulse" value="pulse" onclick="add_pulse()"/>
-        <br><input type="button" id="btn_no_pulses" value="remove pulses" onclick="stop_all_pulses()"/>
+        <br><input type="button" class="button" id="btn_pulse" value="pulse" onclick="add_pulse()"/>
+        <br><input type="button" class="button" id="btn_no_pulses" value="remove pulses" onclick="stop_all_pulses()"/>
     </p>
 
     <script>
