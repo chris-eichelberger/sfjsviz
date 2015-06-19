@@ -7,6 +7,8 @@
         body { margin: 0; }
         canvas { width: 100%; height: 100% }
 
+        tr { vertical-align:top; }
+        td { vertical-align:top; }
         input.button { width:120px; }
     </style>
 
@@ -20,6 +22,9 @@
     <script src="OrbitControls.js"></script>
     <script src=""jquery-ui.js></script>
 
+    <script src="data/R222.js"></script>
+    <script src="data/Z222.js"></script>
+    <script src="data/H222.js"></script>
     <script src="data/R2R22.js"></script>
     <script src="data/RR222.js"></script>
     <script src="data/R2Z22.js"></script>
@@ -42,7 +47,7 @@
     <script>
         // select curve
         var sfc = sfc__R2R22;
-        var curve_name = "R2R22";
+        var curve_name = "R222";
 
         var sel_x = 0;
         var sel_y = 0;
@@ -102,9 +107,17 @@
           });
         }
 
+        function update_image() {
+            // curve diagram
+            $('#dotimg').html("<img src='img/" + curve_name + ".png'>");
+        }
+
         function update_model() {
             sfc = sfc__R2R22;
+            console.log("curve_name:  " + curve_name);
             sfc = window["sfc__" + curve_name];
+
+            update_image();
 
             // ensure sortedness
             if (typeof(ever_sorted[sfc.name]) === "undefined") {
@@ -200,9 +213,9 @@
             </td>
             <td style="width:30px;">&nbsp;</td>
             <td>
-                <input type="radio" name="model-type-1" value="" onclick="switch_model()" checked="true">Row-major<br>
+                <input type="radio" name="model-type-1" value="" onclick="switch_model()" checked="true">[none]<br>
+                <input type="radio" name="model-type-1" value="R" onclick="switch_model()">Row-major<br>
                 <input type="radio" name="model-type-1" value="Z" onclick="switch_model()">Z-order<br>
-                <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
                 <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
             </td>
             <td style="width:30px;">&nbsp;</td>
@@ -210,6 +223,8 @@
                 <input type="radio" name="model-order" value="true" onclick="switch_model()" checked="true">literal first<br>
                 <input type="radio" name="model-order" value="false" onclick="switch_model()">curve first<br>
             </td>
+            <td style="width:30px;">&nbsp;</td>
+            <td><div id="dotimg"></div></td>
         </tr>
     </table>
 
@@ -247,6 +262,7 @@
     </p>
 
     <script>
+        update_image();
         update_selection();
     </script>
 
