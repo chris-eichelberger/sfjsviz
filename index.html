@@ -99,40 +99,31 @@
 
         function update_model() {
             sfc = sfc__R222;
-            if (curve_name == "R222") {
+            if (curve_name == "RR") {
                 sfc = sfc__R222;
             }
-            if (curve_name == "Z222") {
+            if (curve_name == "ZZ") {
                 sfc = sfc__Z222;
             }
-            if (curve_name == "H222") {
+            if (curve_name == "HH") {
                 sfc = sfc__H222;
             }
-            if (curve_name == "R224") {
-                sfc = sfc__R224;
-            }
-            if (curve_name == "Z224") {
-                sfc = sfc__Z224;
-            }
-            if (curve_name == "H224") {
-                sfc = sfc__H224;
-            }
-            if (curve_name == "R2Z22") {
+            if (curve_name == "RZ") {
                 sfc = sfc__R2Z22;
             }
-            if (curve_name == "R2H22") {
+            if (curve_name == "RH") {
                 sfc = sfc__R2H22;
             }
-            if (curve_name == "Z2R22") {
+            if (curve_name == "ZR") {
                 sfc = sfc__Z2R22;
             }
-            if (curve_name == "Z2H22") {
+            if (curve_name == "ZH") {
                 sfc = sfc__Z2H22;
             }
-            if (curve_name == "H2R22") {
+            if (curve_name == "HR") {
                 sfc = sfc__H2R22;
             }
-            if (curve_name == "H2Z22") {
+            if (curve_name == "HZ") {
                 sfc = sfc__H2Z22;
             }
 
@@ -202,25 +193,30 @@
     update_model();
 
     function switch_model() {
-      curve_name = $("input[name=model-type]:checked").val();
+      curve_name = $("input[name=model-type-0]:checked").val() + $("input[name=model-type-1]:checked").val();
       update_model();
     }
+
   </script>
 
-    <p>
-        <input type="radio" name="model-type" value="R222" onclick="switch_model()" checked="true">R(2,2,2)<br>
-        <input type="radio" name="model-type" value="Z222" onclick="switch_model()">Z(2,2,2)<br>
-        <input type="radio" name="model-type" value="H222" onclick="switch_model()">H(2,2,2)<br>
-    </p>
-
-    <p>
-        <input type="radio" name="model-type" value="R2Z22" onclick="switch_model()">R(2,Z(2,2))<br>
-        <input type="radio" name="model-type" value="R2H22" onclick="switch_model()">R(2,H(2,2))<br>
-        <input type="radio" name="model-type" value="Z2R22" onclick="switch_model()">Z(2,R(2,2))<br>
-        <input type="radio" name="model-type" value="Z2H22" onclick="switch_model()">Z(2,H(2,2))<br>
-        <input type="radio" name="model-type" value="H2R22" onclick="switch_model()">H(2,R(2,2))<br>
-        <input type="radio" name="model-type" value="H2Z22" onclick="switch_model()">H(2,Z(2,2))<br>
-    </p>
+    <table>
+        <tr>
+            <td>
+                <p>
+                    <input type="radio" name="model-type-0" value="R" onclick="switch_model()" checked="true">Row-major<br>
+                    <input type="radio" name="model-type-0" value="Z" onclick="switch_model()">Z-order<br>
+                    <input type="radio" name="model-type-0" value="H" onclick="switch_model()">Hilbert<br>
+                </p>
+            </td>
+            <td>
+                <p>
+                    <input type="radio" name="model-type-1" value="R" onclick="switch_model()" checked="true">Row-major<br>
+                    <input type="radio" name="model-type-1" value="Z" onclick="switch_model()">Z-order<br>
+                    <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
+                </p>
+            </td>
+        </tr>
+    </table>
 
     <p>
         <label for="num-ranges">Number of ranges:</label>
