@@ -1,0 +1,11 @@
+digraph G {
+  node [ shape="rectangle" style="filled" fillcolor="#FFFFFF" ]
+
+  R0 -> H1
+  R0 -> z
+  H1 -> x
+  H1 -> y
+
+  R0 [ label="Row-major" fillcolor="#CCCCCC" ]
+  H1 [ label="Hilbert" fillcolor="#CCCCCC" ]
+}

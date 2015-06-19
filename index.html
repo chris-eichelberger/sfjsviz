@@ -45,9 +45,30 @@
     <script src="data/HH222.js"></script>
 
     <script>
+        // from http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
+        function getUrlParameter(sParam)
+        {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++)
+            {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam)
+                {
+                    return sParameterName[1];
+                }
+            }
+        }
+    </script>
+
+    <script>
         // select curve
         var sfc = sfc__R2R22;
         var curve_name = "R222";
+        if (typeof(getUrlParameter("curve")) != "undefined") {
+          curve_name = getUrlParameter("curve");
+          sfc = window["sfc__" + curve_name];
+        }
 
         var sel_x = 0;
         var sel_y = 0;
@@ -207,21 +228,21 @@
         </tr>
         <tr>
             <td>
-                <input type="radio" name="model-type-0" value="R" onclick="switch_model()" checked="true">Row-major<br>
-                <input type="radio" name="model-type-0" value="Z" onclick="switch_model()">Z-order<br>
-                <input type="radio" name="model-type-0" value="H" onclick="switch_model()">Hilbert<br>
+                <input type="radio" id="model-type-0-r" name="model-type-0" value="R" onclick="switch_model()" checked="true">Row-major<br>
+                <input type="radio" id="model-type-0-z" name="model-type-0" value="Z" onclick="switch_model()">Z-order<br>
+                <input type="radio" id="model-type-0-h" name="model-type-0" value="H" onclick="switch_model()">Hilbert<br>
             </td>
             <td style="width:30px;">&nbsp;</td>
             <td>
-                <input type="radio" name="model-type-1" value="" onclick="switch_model()" checked="true">[none]<br>
-                <input type="radio" name="model-type-1" value="R" onclick="switch_model()">Row-major<br>
-                <input type="radio" name="model-type-1" value="Z" onclick="switch_model()">Z-order<br>
-                <input type="radio" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
+                <input type="radio" id="model-type-1-" name="model-type-1" value="" onclick="switch_model()" checked="true">[none]<br>
+                <input type="radio" id="model-type-1-r" name="model-type-1" value="R" onclick="switch_model()">Row-major<br>
+                <input type="radio" id="model-type-1-z" name="model-type-1" value="Z" onclick="switch_model()">Z-order<br>
+                <input type="radio" id="model-type-1-h" name="model-type-1" value="H" onclick="switch_model()">Hilbert<br>
             </td>
             <td style="width:30px;">&nbsp;</td>
             <td>
-                <input type="radio" name="model-order" value="true" onclick="switch_model()" checked="true">literal first<br>
-                <input type="radio" name="model-order" value="false" onclick="switch_model()">curve first<br>
+                <input type="radio" id="model-order-literal" name="model-order" value="true" onclick="switch_model()" checked="true">literal first<br>
+                <input type="radio" id="model-order-curve" name="model-order" value="false" onclick="switch_model()">curve first<br>
             </td>
             <td style="width:30px;">&nbsp;</td>
             <td><div id="dotimg"></div></td>
@@ -262,6 +283,18 @@
     </p>
 
     <script>
+        $('#model-order-literal').prop('checked', curve_name.length == 4 || curve_name[1] == "2");
+        $('#model-order-curve').prop('checked', !(curve_name.length == 4 || curve_name[1] == "2"));
+
+        $('#model-type-1-').prop('checked', curve_name.length == 4);
+        $('#model-type-1-r').prop('checked', curve_name.length > 4 && curve_name[2] == "R");
+        $('#model-type-1-z').prop('checked', curve_name.length > 4 && curve_name[2] == "Z");
+        $('#model-type-1-h').prop('checked', curve_name.length > 4 && curve_name[2] == "H");
+
+        $('#model-type-0-r').prop('checked', curve_name[0] == "R");
+        $('#model-type-0-z').prop('checked', curve_name[0] == "Z");
+        $('#model-type-0-h').prop('checked', curve_name[0] == "H");
+
         update_image();
         update_selection();
     </script>
