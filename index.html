@@ -287,9 +287,9 @@
         $('#model-order-curve').prop('checked', !(curve_name.length == 4 || curve_name[1] == "2"));
 
         $('#model-type-1-').prop('checked', curve_name.length == 4);
-        $('#model-type-1-r').prop('checked', curve_name.length > 4 && curve_name[2] == "R");
-        $('#model-type-1-z').prop('checked', curve_name.length > 4 && curve_name[2] == "Z");
-        $('#model-type-1-h').prop('checked', curve_name.length > 4 && curve_name[2] == "H");
+        $('#model-type-1-r').prop('checked', curve_name[1] == "R" || curve_name[2] == "R");
+        $('#model-type-1-z').prop('checked', curve_name[1] == "Z" || curve_name[2] == "Z");
+        $('#model-type-1-h').prop('checked', curve_name[1] == "H" || curve_name[2] == "H");
 
         $('#model-type-0-r').prop('checked', curve_name[0] == "R");
         $('#model-type-0-z').prop('checked', curve_name[0] == "Z");
